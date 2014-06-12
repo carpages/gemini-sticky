@@ -1,20 +1,19 @@
 /**
  * @fileoverview
 
-A jQuery plugin to make elements stick to the top of the page on scroll
+A Gemini plugin to make elements stick to the top of the page on scroll
 
  *
- * @namespace jquery.sticky
+ * @namespace gemini.sticky
  * @copyright Carpages.ca 2014
  * @author Matt Rose <matt@mattrose.ca>
  *
- * @requires jquery-loader
- * @requires jquery.boiler
- * @requires jquery.respond
+ * @requires gemini
+ * @requires gemini.respond
  *
- * @prop {string} activeClass {@link jquery.sticky#activeClass}
- * @prop {integer} offset {@link jquery.sticky#offset}
- * @prop {string} screen {@link jquery.sticky#screen}
+ * @prop {string} activeClass {@link gemini.sticky#activeClass}
+ * @prop {integer} offset {@link gemini.sticky#offset}
+ * @prop {string} screen {@link gemini.sticky#screen}
  *
  * @example
   <html>
@@ -24,16 +23,16 @@ A jQuery plugin to make elements stick to the top of the page on scroll
   </html>
  *
  * @example
-  $('#js-sticky').sticky();
+  G('#js-sticky').sticky();
  */
-define(['jquery-loader', 'jquery.boiler', 'jquery.respond'], function($){
+define(['gemini', 'gemini.respond'], function($){
 
   $.boiler('sticky', {
     defaults: {
       /**
        * The class that's toggled when the element should stick
        *
-       * @name jquery.sticky#activeClass
+       * @name gemini.sticky#activeClass
        * @type string
        * @default 'is-sticky'
        */
@@ -41,7 +40,7 @@ define(['jquery-loader', 'jquery.boiler', 'jquery.respond'], function($){
       /**
        * The number of pixels to offset when the sticking should activate
        *
-       * @name jquery.sticky#offset
+       * @name gemini.sticky#offset
        * @type integer
        * @default 0
        */
@@ -49,7 +48,7 @@ define(['jquery-loader', 'jquery.boiler', 'jquery.respond'], function($){
       /**
        * The screen size that you want the plugin to apply on
        *
-       * @name jquery.sticky#screen
+       * @name gemini.sticky#screen
        * @type string
        * @default 'medium'
        */
@@ -87,7 +86,7 @@ define(['jquery-loader', 'jquery.boiler', 'jquery.respond'], function($){
      *
      * @private
      * @method
-     * @name jquery.sticky#_update
+     * @name gemini.sticky#_update
     **/
     _update: function(){
       var plugin = this;
