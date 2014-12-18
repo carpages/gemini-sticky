@@ -14,6 +14,8 @@ A Gemini plugin to make elements stick to the top of the page on scroll
  * @prop {string} activeClass {@link gemini.sticky#activeClass}
  * @prop {integer} offset {@link gemini.sticky#offset}
  * @prop {string} screen {@link gemini.sticky#screen}
+ * @prop {interger} latency {@link gemini.sticky#latency}
+ * @prop {boolean} staticWidth {@link gemini.sticky#staticWidth}
  *
  * @example
   <html>
@@ -52,7 +54,25 @@ define(['gemini', 'gemini.respond'], function($){
        * @type string
        * @default 'medium'
        */
-      screen: 'medium'
+      screen: 'medium',
+      /**
+       * How often to check the scroll position of the user. Use with care to
+       * find the right balance between latency and performance.
+       *
+       * @name gemini.sticky#latency
+       * @type integer
+       * @default 200
+       */
+      latency: 200
+      /**
+       * Whether to make the width of the sticky object static so that its width
+       * isn't affected when its position becomes fixed
+       *
+       * @name gemini.sticky#staticWidth
+       * @type boolean
+       * @default false
+       */
+      staticWidth: false
     },
 
     init: function(){
@@ -78,7 +98,7 @@ define(['gemini', 'gemini.respond'], function($){
           plugin.didScroll = false;
           plugin._update();
         }
-      }, 250);
+      }, plugin.settings.latency);
     },
 
     /**
