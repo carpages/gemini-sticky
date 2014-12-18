@@ -63,7 +63,7 @@ define(['gemini', 'gemini.respond'], function($){
        * @type integer
        * @default 200
        */
-      latency: 200
+      latency: 200,
       /**
        * Whether to make the width of the sticky object static so that its width
        * isn't affected when its position becomes fixed
@@ -82,8 +82,12 @@ define(['gemini', 'gemini.respond'], function($){
       plugin.stickScreen = $.respond.isScreen(plugin.settings.screen);
       $.respond.bind('resize', function(){
         plugin.stickScreen = $.respond.isScreen(plugin.settings.screen);
-        plugin._update();
+
+        if(plugin.settings.staticWidth) plugin._adjustWidth();
+        plugin._checkStick();
       });
+
+      if(plugin.settings.staticWidth) plugin._adjustWidth();
 
       plugin.origOffsetY = plugin.$el.offset().top + plugin.settings.offset;
       //http://ejohn.org/blog/learning-from-twitter/
@@ -96,9 +100,34 @@ define(['gemini', 'gemini.respond'], function($){
       setInterval(function() {
         if ( plugin.didScroll ) {
           plugin.didScroll = false;
-          plugin._update();
+          plugin._checkStick();
         }
       }, plugin.settings.latency);
+    },
+
+    /**
+     * Update width of item to fit environment
+     *
+     * @private
+     * @method
+     * @name gemini.sticky#_adjustWidth
+    **/
+    _adjustWidth: function(){
+      var plugin = this;
+
+      var hasClass = plugin.$el.hasClass(plugin.settings.activeClass);
+
+      if (hasClass) {
+        plugin.$el.removeClass(plugin.settings.activeClass);
+      }
+
+      plugin.$el.width("");
+      plugin.$el.width(plugin.$el.width());
+
+      if (hasClass) {
+        plugin.$el.addClass(plugin.settings.activeClass);
+      }
+
     },
 
     /**
@@ -106,9 +135,9 @@ define(['gemini', 'gemini.respond'], function($){
      *
      * @private
      * @method
-     * @name gemini.sticky#_update
+     * @name gemini.sticky#_checkStick
     **/
-    _update: function(){
+    _checkStick: function(){
       var plugin = this;
       if(window.scrollY >= plugin.origOffsetY && plugin.stickScreen){
         plugin.$el.addClass(plugin.settings.activeClass);
