@@ -122,7 +122,7 @@ define(['gemini', 'gemini.respond'], function($){
       }
 
       plugin.$el.width("");
-      plugin.$el.width(plugin.$el.width());
+      plugin.$el.width(plugin.$el.width() - 0.5);
 
       if (hasClass) {
         plugin.$el.addClass(plugin.settings.activeClass);
