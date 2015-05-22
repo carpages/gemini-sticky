@@ -1,11 +1,17 @@
-/*------------------------------------*\
-    STICKY
-\*------------------------------------*/
+/**
+ ********************************
+ * _STICKY.SCSS
+ ********************************
+ */
 
-.is-sticky{
-  display:block;
-  position:fixed;
-  top:0;
-  z-index:20;
+/**
+ * @module Sticky [.sticky]
+ * @description Sticks the element to the top of the page.
+ */
+.sticky {
+  display: block;
+  position: fixed;
+  top: 0;
+  z-index: 20;
   @extend %gpu;
 }

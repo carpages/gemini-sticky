@@ -53,9 +53,9 @@ A Gemini plugin to make elements stick to the top of the page on scroll
        *
        * @name gemini.sticky#activeClass
        * @type string
-       * @default 'is-sticky'
+       * @default 'sticky'
        */
-      activeClass: 'is-sticky',
+      activeClass: 'sticky',
       /**
        * The number of pixels to offset when the sticking should activate
        *
