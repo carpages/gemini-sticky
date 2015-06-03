@@ -7,7 +7,9 @@
     "gemini.sticky.js",
     "sass/sticky.scss"
   ],
-  "ignore": [],
+  "ignore": [
+    "test"
+  ],
   "dependencies": {
     "gemini-loader": "~0",
     "gemini-respond": "~0",
