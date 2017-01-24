@@ -38,7 +38,7 @@ A Gemini plugin to make elements stick to the top of the page on scroll
     // Node/CommonJS
     module.exports = factory(
       require( 'gemini-loader' ),
-      require( 'gemini.respond' )
+      require( 'gemini-respond' )
     );
   } else {
     // Browser globals
