@@ -1,5 +1,7 @@
 $gemini-use: (grid: true);
 
-@import "../bower_components/gemini-css/init.scss";
+// Import Gemini CSS
+@import "gemini-css/init.scss";
 
+// Import modules CSS
 @import "../sass/sticky.scss";
