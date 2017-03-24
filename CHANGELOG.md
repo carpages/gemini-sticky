@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v1.0.3
+
+  - Drop dependency on Ruby
+  - Use Carpages eslint config
+
 ## v1.0.2
 
   - Fix CommonJS require statement to require gemini-respond module
