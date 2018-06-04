@@ -27,9 +27,8 @@ A Gemini plugin to make elements stick to the top of the page on scroll
  * @example
   G('#js-sticky').sticky();
  */
-define(['gemini', 'gemini.respond'], function($){
-
-  $.boiler('sticky', {
+define([ 'gemini', 'gemini.respond' ], function( $ ) {
+  $.boiler( 'sticky', {
     defaults: {
       /**
        * The class that's toggled when the element should stick
@@ -75,34 +74,34 @@ define(['gemini', 'gemini.respond'], function($){
       staticWidth: false
     },
 
-    init: function(){
+    init: function() {
       var plugin = this;
 
       // Weather to stick or not depending on the screen size
-      plugin.stickScreen = $.respond.isScreen(plugin.settings.screen);
-      $.respond.bind('resize', function(){
-        plugin.stickScreen = $.respond.isScreen(plugin.settings.screen);
+      plugin.stickScreen = $.respond.isScreen( plugin.settings.screen );
+      $.respond.bind( 'resize', function() {
+        plugin.stickScreen = $.respond.isScreen( plugin.settings.screen );
 
-        if(plugin.settings.staticWidth) plugin._adjustWidth();
+        if ( plugin.settings.staticWidth ) plugin._adjustWidth();
         plugin._checkStick();
       });
 
-      if(plugin.settings.staticWidth) plugin._adjustWidth();
+      if ( plugin.settings.staticWidth ) plugin._adjustWidth();
 
       plugin.origOffsetY = plugin.$el.offset().top + plugin.settings.offset;
-      //http://ejohn.org/blog/learning-from-twitter/
+      // http://ejohn.org/blog/learning-from-twitter/
       plugin.didScroll = true;
 
-      $window.scroll(function(){
+      $window.scroll( function() {
         plugin.didScroll = true;
       });
 
-      setInterval(function() {
+      setInterval( function() {
         if ( plugin.didScroll ) {
           plugin.didScroll = false;
           plugin._checkStick();
         }
-      }, plugin.settings.latency);
+      }, plugin.settings.latency );
     },
 
     /**
@@ -111,23 +110,22 @@ define(['gemini', 'gemini.respond'], function($){
      * @private
      * @method
      * @name gemini.sticky#_adjustWidth
-    **/
-    _adjustWidth: function(){
+     **/
+    _adjustWidth: function() {
       var plugin = this;
 
-      var hasClass = plugin.$el.hasClass(plugin.settings.activeClass);
+      var hasClass = plugin.$el.hasClass( plugin.settings.activeClass );
 
-      if (hasClass) {
-        plugin.$el.removeClass(plugin.settings.activeClass);
+      if ( hasClass ) {
+        plugin.$el.removeClass( plugin.settings.activeClass );
       }
 
-      plugin.$el.width("");
-      plugin.$el.width(plugin.$el.width() - 0.5);
+      plugin.$el.width( '' );
+      plugin.$el.width( plugin.$el.width() - 0.5 );
 
-      if (hasClass) {
-        plugin.$el.addClass(plugin.settings.activeClass);
+      if ( hasClass ) {
+        plugin.$el.addClass( plugin.settings.activeClass );
       }
-
     },
 
     /**
@@ -136,13 +134,13 @@ define(['gemini', 'gemini.respond'], function($){
      * @private
      * @method
      * @name gemini.sticky#_checkStick
-    **/
-    _checkStick: function(){
+     **/
+    _checkStick: function() {
       var plugin = this;
-      if(window.scrollY >= plugin.origOffsetY && plugin.stickScreen){
-        plugin.$el.addClass(plugin.settings.activeClass);
-      }else{
-        plugin.$el.removeClass(plugin.settings.activeClass);
+      if ( window.pageYOffset >= plugin.origOffsetY && plugin.stickScreen ) {
+        plugin.$el.addClass( plugin.settings.activeClass );
+      } else {
+        plugin.$el.removeClass( plugin.settings.activeClass );
       }
     }
   });
@@ -150,5 +148,4 @@ define(['gemini', 'gemini.respond'], function($){
   // Return the jquery object
   // This way you don't need to require both jquery and the plugin
   return $;
-
 });
