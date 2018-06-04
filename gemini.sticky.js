@@ -30,10 +30,7 @@ A Gemini plugin to make elements stick to the top of the page on scroll
 ( function( factory ) {
   if ( typeof define === 'function' && define.amd ) {
     // AMD. Register as an anonymous module.
-    define([
-      'gemini',
-      'gemini.respond'
-    ], factory );
+    define([ 'gemini', 'gemini.respond' ], factory );
   } else if ( typeof exports === 'object' ) {
     // Node/CommonJS
     module.exports = factory(
@@ -44,7 +41,7 @@ A Gemini plugin to make elements stick to the top of the page on scroll
     // Browser globals
     factory( G );
   }
-}( function( $ ) {
+})( function( $ ) {
   $.boiler( 'sticky', {
     defaults: {
       /**
@@ -137,7 +134,7 @@ A Gemini plugin to make elements stick to the top of the page on scroll
      * @private
      * @method
      * @name gemini.sticky#_adjustWidth
-    **/
+     **/
     _adjustWidth: function() {
       var plugin = this;
 
@@ -161,11 +158,11 @@ A Gemini plugin to make elements stick to the top of the page on scroll
      * @private
      * @method
      * @name gemini.sticky#_checkStick
-    **/
+     **/
     _checkStick: function() {
       var plugin = this;
 
-      if ( window.scrollY >= plugin.origOffsetY && plugin.stickScreen ) {
+      if ( window.pageYOffset >= plugin.origOffsetY && plugin.stickScreen ) {
         plugin.$el.addClass( plugin.settings.activeClass );
       } else {
         plugin.$el.removeClass( plugin.settings.activeClass );
@@ -176,4 +173,4 @@ A Gemini plugin to make elements stick to the top of the page on scroll
   // Return the jquery object
   // This way you don't need to require both jquery and the plugin
   return $;
-}));
+});
