@@ -12,6 +12,7 @@ A Gemini plugin to make elements stick to the top of the page on scroll
  * @requires gemini.respond
  *
  * @prop {string} activeClass {@link gemini.sticky#activeClass}
+ * @prop {string} passedThresholdClass {@link gemini.sticky#passedThresholdClass}
  * @prop {integer} offset {@link gemini.sticky#offset}
  * @prop {string} screen {@link gemini.sticky#screen}
  * @prop {interger} latency {@link gemini.sticky#latency}
@@ -89,15 +90,27 @@ A Gemini plugin to make elements stick to the top of the page on scroll
        * @type boolean
        * @default false
        */
-      staticWidth: false
+      staticWidth: false,
+
+      /**
+       * Stop moving the sticky object downwards when it reaches the bottom of the
+       * parent div
+       *
+       * @name gemini.sticky#containInParent
+       * @type boolean
+       * @default false
+       */
+      containInParent: true
     },
 
     init: function() {
       var plugin = this;
 
-      // Weather to stick or not depending on the screen size
-      plugin.stickScreen = $.respond.isScreen( plugin.settings.screen );
+      // cache the element's parent
+      plugin.$parent = plugin.$el.parent();
 
+      // Whether to stick or not depending on the screen size
+      plugin.stickScreen = $.respond.isScreen( plugin.settings.screen );
       $.respond.bind( 'resize', function() {
         plugin.stickScreen = $.respond.isScreen( plugin.settings.screen );
 
@@ -114,7 +127,7 @@ A Gemini plugin to make elements stick to the top of the page on scroll
 
       plugin.origOffsetY = plugin.$el.offset().top + plugin.settings.offset;
       // http://ejohn.org/blog/learning-from-twitter/
-      plugin.didScroll = true;
+      plugin.didScroll = false;
 
       $( window ).scroll( function() {
         plugin.didScroll = true;
@@ -123,6 +136,12 @@ A Gemini plugin to make elements stick to the top of the page on scroll
       setInterval( function() {
         if ( plugin.didScroll ) {
           plugin.didScroll = false;
+
+          plugin.bottomOfElement =
+            plugin.$el.offset().top + plugin.$el.height();
+          plugin.bottomOfParent =
+            plugin.$parent.offset().top + plugin.$parent.height();
+
           plugin._checkStick();
         }
       }, plugin.settings.latency );
@@ -162,11 +181,82 @@ A Gemini plugin to make elements stick to the top of the page on scroll
     _checkStick: function() {
       var plugin = this;
 
-      if ( window.pageYOffset >= plugin.origOffsetY && plugin.stickScreen ) {
-        plugin.$el.addClass( plugin.settings.activeClass );
-      } else {
-        plugin.$el.removeClass( plugin.settings.activeClass );
+      if ( plugin.settings.containInParent ) {
+        if (
+          plugin.stuckToParent &&
+          window.pageYOffset <= plugin.$el.offset().top
+        ) {
+          plugin._unstickFromParent();
+          return;
+        }
+
+        if (
+          plugin.bottomOfElement >= plugin.bottomOfParent &&
+          plugin.stickScreen
+        ) {
+          plugin._stick({ toParent: true });
+          return;
+        }
       }
+
+      if (
+        !plugin.stuckToParent &&
+        window.pageYOffset >= plugin.origOffsetY &&
+        plugin.stickScreen
+      ) {
+        plugin._stick();
+        return;
+      }
+
+      plugin._unstick();
+    },
+
+    _stick: function( options ) {
+      var plugin = this;
+      options = options || {};
+
+      if ( options.toParent ) {
+        plugin._stickInParent();
+      }
+
+      plugin.$el.addClass( plugin.settings.activeClass );
+    },
+
+    _stickInParent: function() {
+      var plugin = this;
+
+      if ( plugin.stuckToParent ) {
+        return;
+      }
+
+      plugin.stuckToParent = true;
+      plugin.$parent.css({ position: 'relative' });
+      plugin.$el.css({
+        position: 'absolute',
+        top: 'inherit',
+        bottom: '0'
+      });
+    },
+
+    _unstickFromParent: function() {
+      var plugin = this;
+
+      if ( !plugin.stuckToParent ) {
+        return;
+      }
+
+      plugin.stuckToParent = false;
+      plugin.$parent.css({ position: '' });
+      plugin.$el.css({
+        position: '',
+        top: '',
+        bottom: ''
+      });
+    },
+
+    _unstick: function() {
+      var plugin = this;
+      plugin.$el.removeClass( plugin.settings.activeClass );
     }
   });
 
