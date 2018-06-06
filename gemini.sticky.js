@@ -127,7 +127,7 @@ A Gemini plugin to make elements stick to the top of the page on scroll
 
       plugin.origOffsetY = plugin.$el.offset().top + plugin.settings.offset;
       // http://ejohn.org/blog/learning-from-twitter/
-      plugin.didScroll = false;
+      plugin.didScroll = true;
 
       $( window ).scroll( function() {
         plugin.didScroll = true;
