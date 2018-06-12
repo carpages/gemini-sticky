@@ -100,7 +100,7 @@ A Gemini plugin to make elements stick to the top of the page on scroll
        * @type boolean
        * @default false
        */
-      containInParent: true
+      containInParent: false
     },
 
     init: function() {
