@@ -148,12 +148,12 @@ define([ 'gemini', 'gemini.respond' ], function( $ ) {
       if ( window.pageYOffset >= plugin.origOffsetY && plugin.stickScreen ) {
         plugin.$el.addClass( plugin.settings.activeClass );
         if (plugin.options.autoOffset){
-          plugin.$sibling.css('margin-top', plugin.$el.css('height'))
+          plugin.$sibling.css('margin-top', plugin.$el.css('height'));
         }
       } else {
         plugin.$el.removeClass( plugin.settings.activeClass );
         if (plugin.options.autoOffset){
-          plugin.$sibling.css('margin-top', 0)
+          plugin.$sibling.css('margin-top', 0);
         }
       }
     }
