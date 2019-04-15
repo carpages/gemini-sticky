@@ -13,6 +13,7 @@ A Gemini plugin to make elements stick to the top of the page on scroll
  *
  * @prop {string} activeClass {@link gemini.sticky#activeClass}
  * @prop {integer} offset {@link gemini.sticky#offset}
+ * @prop {boolean} autoOffset {@link gemini.sticky#autoOffset}
  * @prop {string} screen {@link gemini.sticky#screen}
  * @prop {interger} latency {@link gemini.sticky#latency}
  * @prop {boolean} staticWidth {@link gemini.sticky#staticWidth}
@@ -47,6 +48,11 @@ define([ 'gemini', 'gemini.respond' ], function( $ ) {
        */
       offset: 0,
       /**
+       * Get the height of the stickied nav (only when actually sticky),
+       * and add margin-height to the next element (so we don't overlap it)
+       */
+      autoOffset: false,
+      /**
        * The screen size that you want the plugin to apply on
        *
        * @name gemini.sticky#screen
@@ -76,6 +82,8 @@ define([ 'gemini', 'gemini.respond' ], function( $ ) {
 
     init: function() {
       var plugin = this;
+
+      plugin.$sibling = plugin.$el.find(' + ');
 
       // Weather to stick or not depending on the screen size
       plugin.stickScreen = $.respond.isScreen( plugin.settings.screen );
@@ -139,8 +147,16 @@ define([ 'gemini', 'gemini.respond' ], function( $ ) {
       var plugin = this;
       if ( window.pageYOffset >= plugin.origOffsetY && plugin.stickScreen ) {
         plugin.$el.addClass( plugin.settings.activeClass );
+
+        if (plugin.options.autoOffset){
+          plugin.$sibling.css('margin-top', plugin.$el.css('height'));
+        }
       } else {
         plugin.$el.removeClass( plugin.settings.activeClass );
+        
+        if (plugin.options.autoOffset){
+          plugin.$sibling.css('margin-top', 0);
+        }
       }
     }
   });
