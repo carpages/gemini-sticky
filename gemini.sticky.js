@@ -34,10 +34,7 @@ A Gemini plugin to make elements stick to the top of the page on scroll
     define([ 'gemini', 'gemini.respond' ], factory );
   } else if ( typeof exports === 'object' ) {
     // Node/CommonJS
-    module.exports = factory(
-      require( 'gemini-loader' ),
-      require( 'gemini-respond' )
-    );
+    module.exports = factory( require( 'gemini-loader' ), require( 'gemini-respond' ));
   } else {
     // Browser globals
     factory( G );
@@ -137,10 +134,8 @@ A Gemini plugin to make elements stick to the top of the page on scroll
         if ( plugin.didScroll ) {
           plugin.didScroll = false;
 
-          plugin.bottomOfElement =
-            plugin.$el.offset().top + plugin.$el.height();
-          plugin.bottomOfParent =
-            plugin.$parent.offset().top + plugin.$parent.height();
+          plugin.bottomOfElement = plugin.$el.offset().top + plugin.$el.height();
+          plugin.bottomOfParent = plugin.$parent.offset().top + plugin.$parent.height();
 
           plugin._checkStick();
         }
@@ -182,28 +177,18 @@ A Gemini plugin to make elements stick to the top of the page on scroll
       var plugin = this;
 
       if ( plugin.settings.containInParent ) {
-        if (
-          plugin.stuckToParent &&
-          window.pageYOffset <= plugin.$el.offset().top
-        ) {
+        if ( plugin.stuckToParent && window.pageYOffset <= plugin.$el.offset().top ) {
           plugin._unstickFromParent();
           return;
         }
 
-        if (
-          plugin.bottomOfElement >= plugin.bottomOfParent &&
-          plugin.stickScreen
-        ) {
+        if ( plugin.bottomOfElement >= plugin.bottomOfParent && plugin.stickScreen ) {
           plugin._stick({ toParent: true });
           return;
         }
       }
 
-      if (
-        !plugin.stuckToParent &&
-        window.pageYOffset >= plugin.origOffsetY &&
-        plugin.stickScreen
-      ) {
+      if ( !plugin.stuckToParent && window.pageYOffset >= plugin.origOffsetY && plugin.stickScreen ) {
         plugin._stick();
         return;
       }
